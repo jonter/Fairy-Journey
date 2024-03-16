@@ -40,11 +40,24 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SideMove();
-        FlipChar();
-        PlayerJump();
-        Climb();
+        if (CanMove() == true)
+        {
+            SideMove();
+            FlipChar();
+            PlayerJump();
+            Climb();
+        }
+        
         SetAnim();
+    }
+
+    bool CanMove()
+    {
+        if (state == PlayerState.DISABLED) return false;
+        if (state == PlayerState.DEAD) return false;
+        if (state == PlayerState.ATTACK) return false;
+
+        return true;
     }
 
 
