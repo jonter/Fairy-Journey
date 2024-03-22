@@ -53,6 +53,9 @@ public class PlayerHealth : MonoBehaviour
         yield return new WaitForSeconds(1);
         GetComponent<Animator>().SetInteger("state", 10);
         GetComponent<Rigidbody2D>().velocity = new Vector2();
+        GetComponent<Rigidbody2D>().gravityScale = 0;
+        GetComponent<CircleCollider2D>().enabled = false;
+        GetComponent<CapsuleCollider2D>().enabled = false;
         // ещё добавить задержку по времени и показать экран проигрыша
     }
 
