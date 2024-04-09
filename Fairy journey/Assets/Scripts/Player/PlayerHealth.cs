@@ -50,6 +50,7 @@ public class PlayerHealth : MonoBehaviour
     IEnumerator DeathCoroutine()
     {
         controller.state = PlayerState.DEAD;
+        rb.gravityScale = 3.5f;
         yield return new WaitForSeconds(1);
         GetComponent<Animator>().SetInteger("state", 10);
         GetComponent<Rigidbody2D>().velocity = new Vector2();

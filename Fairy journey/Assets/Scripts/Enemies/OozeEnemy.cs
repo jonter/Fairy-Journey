@@ -2,14 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OozeEnemy : MonoBehaviour
+public class OozeEnemy : MonoBehaviour, IDamagable
 {
     Rigidbody2D rb;
     [SerializeField] float speed = 2;
 
+    [SerializeField] int hp = 3;
+    bool isAlive = true;
+
+    Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         rb.velocity = -transform.right * speed;
     }
@@ -17,6 +23,7 @@ public class OozeEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isAlive == false) return;
         bool isWall = CheckWall();
         bool isBreak = CheckBreak();
         
@@ -62,5 +69,29 @@ public class OozeEnemy : MonoBehaviour
         }
 
     }
+
+    public void GetDamage(int damage)
+    {
+        if (isAlive == false) return;
+        hp -= damage;
+
+        if(hp <= 0)
+        {
+            Death();
+        }
+
+    }
+
+    void Death()
+    {
+        isAlive = false;
+        rb.velocity = new Vector2();
+        anim.SetTrigger("death");
+        GetComponent<Collider2D>().enabled = false;
+        // выпадение монет с монстра
+        Destroy(gameObject, 20);
+    }
+
+
 
 }
