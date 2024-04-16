@@ -41,7 +41,7 @@ public class PlayerHealth : MonoBehaviour
     {
         controller.state = PlayerState.DISABLED;
         immortal = true;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         controller.state = PlayerState.FALL;
         yield return new WaitForSeconds(0.25f);
         immortal = false;
@@ -51,7 +51,7 @@ public class PlayerHealth : MonoBehaviour
     {
         controller.state = PlayerState.DEAD;
         rb.gravityScale = 3.5f;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         GetComponent<Animator>().SetInteger("state", 10);
         GetComponent<Rigidbody2D>().velocity = new Vector2();
         GetComponent<Rigidbody2D>().gravityScale = 0;
