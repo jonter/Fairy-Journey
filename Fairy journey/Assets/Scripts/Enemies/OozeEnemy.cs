@@ -11,6 +11,7 @@ public class OozeEnemy : MonoBehaviour, IDamagable
     bool isAlive = true;
 
     Animator anim;
+    [SerializeField] int coinsDrop = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -88,8 +89,17 @@ public class OozeEnemy : MonoBehaviour, IDamagable
         rb.velocity = new Vector2();
         anim.SetTrigger("death");
         GetComponent<Collider2D>().enabled = false;
-        // выпадение монет с монстра
+        StartCoroutine(SpawnCoins());
         Destroy(gameObject, 20);
+    }
+
+    IEnumerator SpawnCoins()
+    {
+        for (int i = 0; i < coinsDrop; i++)
+        {
+            CoinsManager.instance.SpawnCoin(transform.position);
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 
 

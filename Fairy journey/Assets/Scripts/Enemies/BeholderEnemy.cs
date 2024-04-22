@@ -13,7 +13,7 @@ public enum BeholderState
     DEAD
 }
 
-public class BeholderEnemy : MonoBehaviour
+public class BeholderEnemy : MonoBehaviour, IDamagable
 {
     AIPath path;
     Rigidbody2D rb;
@@ -26,6 +26,9 @@ public class BeholderEnemy : MonoBehaviour
     [SerializeField] float attackRadius = 4;
 
     [SerializeField] float rushSpeed = 6;
+
+    [SerializeField] float hp = 7;
+    [SerializeField] int coinsDrop = 3;
 
     private void OnDrawGizmosSelected()
     {
@@ -187,8 +190,37 @@ public class BeholderEnemy : MonoBehaviour
 
     }
 
+    public void GetDamage(int damage)
+    {
+        if (state == BeholderState.DEAD) return;
+        hp -= damage;
+        if (hp <= 0)
+        {
+            StopAllCoroutines();
+            StartCoroutine(Death());
+        }
+        
+    }
 
+    IEnumerator Death()
+    {
+        anim.SetTrigger("death");
+        state = BeholderState.DEAD;
+        path.canMove = false;
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(SpawnCoins());
+        yield return new WaitForSeconds(20);
+        Destroy(gameObject);
+    }
 
+    IEnumerator SpawnCoins()
+    {
+        for (int i = 0; i < coinsDrop; i++)
+        {
+            CoinsManager.instance.SpawnCoin(transform.position);
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
 
-    
 }
