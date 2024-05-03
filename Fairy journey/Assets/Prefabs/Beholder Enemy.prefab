@@ -197,6 +197,7 @@ MonoBehaviour:
   attackRadius: 3.5
   rushSpeed: 6
   hp: 7
+  coinsDrop: 3
 --- !u!50 &712841543158241396
 Rigidbody2D:
   serializedVersion: 4
