@@ -450,7 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab242b477be194aa880c7fc0fd4b63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkWallDist: 0.9
+  checkWallDist: 1.1
   rushDuration: 8
   runSpeed: 11
 --- !u!1101 &7781870585405698917
