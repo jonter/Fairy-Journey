@@ -6,7 +6,6 @@ using TMPro;
 public class CoinsManager : MonoBehaviour
 {
     TMP_Text coinsText;
-    int coins = 0;
 
     public static CoinsManager instance;
 
@@ -24,20 +23,20 @@ public class CoinsManager : MonoBehaviour
     {
         instance = this;
         coinsText = GetComponentInChildren<TMP_Text>();
-        coinsText.text = "" + coins;
+        coinsText.text = "" + SaveSystem.data.coins;
     }
 
     public void AddCoins(int add)
     {
-        coins += add;
-        coinsText.text = "" + coins;
+        SaveSystem.data.coins += add;
+        coinsText.text = "" + SaveSystem.data.coins;
     }
 
     public bool SpendCoins(int price)
     {
-        if (price > coins) return false;
-        coins -= price;
-        coinsText.text = "" + coins;
+        if (price > SaveSystem.data.coins) return false;
+        SaveSystem.data.coins -= price;
+        coinsText.text = "" + SaveSystem.data.coins;
         return true;
     }
 

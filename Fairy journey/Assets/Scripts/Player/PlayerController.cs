@@ -30,6 +30,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        transform.position = SaveSystem.data.playerPos;
+        transform.rotation = SaveSystem.data.playerRot;
+
         bodyCollider = GetComponent<CapsuleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         legsCollider = GetComponent<CircleCollider2D>();
@@ -47,6 +50,8 @@ public class PlayerController : MonoBehaviour
             PlayerJump();
             Climb();
         }
+        SaveSystem.data.playerPos = transform.position;
+        SaveSystem.data.playerRot = transform.rotation;
         
         SetAnim();
     }

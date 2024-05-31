@@ -18,6 +18,7 @@ public class OozeBossMain : MonoBehaviour, IDamagable
     // Start is called before the first frame update
     void Start()
     {
+        if (SaveSystem.data.oozeBossKilled == true) Destroy(gameObject);
         hp = startHP;
         anim = GetComponent<Animator>();
     }
@@ -76,6 +77,7 @@ public class OozeBossMain : MonoBehaviour, IDamagable
         Destroy(healthDisplay.gameObject, 3f);
         Destroy(gameObject, 50);
         StartCoroutine(SpawnCoinsAfterDeath());
+        SaveSystem.data.oozeBossKilled = true;
     }
 
     IEnumerator SpawnCoinsAfterDeath()

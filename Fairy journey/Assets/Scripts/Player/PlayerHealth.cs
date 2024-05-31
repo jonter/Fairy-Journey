@@ -14,11 +14,14 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hp = maxHP;
+        
+        hp = SaveSystem.data.hp;
+        maxHP = SaveSystem.data.maxHp;
         controller = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
         hpDisplay = FindObjectOfType<HealthDisplay>();
         hpDisplay.SetupHealth(maxHP);
+        hpDisplay.Display(hp);
     }
 
     public void GetDamage(Vector3 vel)
@@ -27,6 +30,7 @@ public class PlayerHealth : MonoBehaviour
         if (controller.state == PlayerState.DEAD) return;
 
         hp--;
+        SaveSystem.data.hp = hp;
         rb.velocity = vel;
         hpDisplay.Display(hp);
 
