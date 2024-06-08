@@ -27,17 +27,30 @@ public class PlayerController : MonoBehaviour
 
     public PlayerState state = PlayerState.IDLE;
 
+    int jumpCount = 0;
+    int maxJumpCount = 1;
+
+    bool isJumpReloaded = true;  
+
     // Start is called before the first frame update
     void Start()
     {
         transform.position = SaveSystem.data.playerPos;
         transform.rotation = SaveSystem.data.playerRot;
+        if (SaveSystem.data.doubleJump == true) maxJumpCount = 2;
 
         bodyCollider = GetComponent<CapsuleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         legsCollider = GetComponent<CircleCollider2D>();
         anim = GetComponent<Animator>();
         gravity = rb.gravityScale;
+    }
+
+    public void UnlockDoubleJump()
+    {
+        SaveSystem.data.doubleJump = true;
+        maxJumpCount = 2;
+        Hint.instance.ShowHint("Теперь тебе доступен двойной прыжок", 0.5f, 5);
     }
 
     // Update is called once per frame
@@ -128,18 +141,28 @@ public class PlayerController : MonoBehaviour
     {
         LayerMask groundLayer = LayerMask.GetMask("Ground");
         bool isGrounded = legsCollider.IsTouchingLayers(groundLayer);
-        if(isGrounded)
+        if (isGrounded == true) jumpCount = 0;
+        
+        if(jumpCount < maxJumpCount && isJumpReloaded == true)
         {
-            if(Input.GetKeyDown(KeyCode.Space))
+            if (jumpCount == 0 && isGrounded == false) return;
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+                StartCoroutine(MakeJump());
             }
         }
-        else
-        {
-            state = PlayerState.FALL;
-        }
 
+        if(isGrounded == false)  state = PlayerState.FALL;
+
+    }
+
+    IEnumerator MakeJump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+        isJumpReloaded = false;
+        yield return new WaitForSeconds(0.15f);
+        isJumpReloaded = true;
+        jumpCount++;
     }
 
 

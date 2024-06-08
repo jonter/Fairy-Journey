@@ -8,7 +8,7 @@ public class SaveSystem : MonoBehaviour
 
     public static void Save()
     {
-        // записать в data все необходимые переменные
+        FindObjectOfType<ChestsSaver>().Save();
         string str = JsonUtility.ToJson(data);
         print(str);
         PlayerPrefs.SetString("data", str);
@@ -19,6 +19,7 @@ public class SaveSystem : MonoBehaviour
         if (PlayerPrefs.HasKey("data") == false) return;
         string str = PlayerPrefs.GetString("data");
         data = JsonUtility.FromJson<GameData>(str);
+        FindObjectOfType<ChestsSaver>().Load();
     }
 
     // Start is called before the first frame update

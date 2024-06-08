@@ -78,6 +78,7 @@ public class OozeBossMain : MonoBehaviour, IDamagable
         Destroy(gameObject, 50);
         StartCoroutine(SpawnCoinsAfterDeath());
         SaveSystem.data.oozeBossKilled = true;
+        FindObjectOfType<PlayerController>().UnlockDoubleJump();
     }
 
     IEnumerator SpawnCoinsAfterDeath()

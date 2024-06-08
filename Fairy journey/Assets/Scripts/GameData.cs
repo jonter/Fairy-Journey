@@ -16,5 +16,6 @@ public class GameData
     public int coins = 0;
     public bool doubleJump = false;
 
+    public bool[] openChests;
     
 }
